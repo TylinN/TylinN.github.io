@@ -1,6 +1,7 @@
 <html>
     <head>
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js"></script>
+        <!--css-->
         <style>
             canvas {
                 border: 1px solid #d3d3d3;
@@ -8,12 +9,15 @@
             }
         </style>
     </head>
+    
+    <!--start the game-->
     <body onload="gameStart()">
         <script>
             var meMyselfandI;
             var poles = [];
             var scorebar;
 
+            //start the game (again)
             function gameStart() {
                 meMyselfandI = new component(30, 30, "green", 10, 120);
                 meMyselfandI.gravity = 0.05;
@@ -21,6 +25,7 @@
                 gamingArea.start();
             }
 
+            //this is where the game takes place on the screen
             var gamingArea = {
                 canvas : document.createElement("canvas"),
                 start : function() {
@@ -36,6 +41,7 @@
                 }
             }
 
+            //stuff to make game look better (scoreboard and stuff like that)
             function component(width, height, color, x, y, type) {
                 this.type = type;
                 this.score = 0;
@@ -58,12 +64,14 @@
                         ctx.fillRect(this.x, this.y, this.width, this.height);
                     }
                 }
+                //new position
                 this.newPos = function() {
                     this.gravitySpeed += this.gravity;
                     this.x += this.speedX;
                     this.y += this.speedY + this.gravitySpeed;
                     this.hitBottom();
                 }
+                //the floor
                 this.hitBottom = function() {
                     var rockbottom = gamingArea.canvas.height - this.height;
                     if (this.y > rockbottom) {
@@ -71,6 +79,7 @@
                         this.gravitySpeed = 0;
                     }
                 }
+                //what happens if player crashes
                 this.crashWith = function(otherobj) {
                     var myleft = this.x;
                     var myright = this.x + (this.width);
@@ -88,6 +97,7 @@
                 }
             }
 
+            //update the play area
             function areaOfPlayUpdate() {
                 var x, height, gap, minHeight, maxHeight, minGap, maxGap;
                 for (i = 0; i < poles.length; i += 1) {
@@ -123,12 +133,14 @@
                 return false;
             }
 
-            function accelerate(n) {
+            //when player clicks button, up we go lol
+            function upWeGo(n) {
                 meMyselfandI.gravity = n;
             }
         </script>
         <br>
-        <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">Jump</button>
+        <button onmousedown="upWeGo(-0.2)" onmouseup="upWeGo(0.05)">Jump</button>
+        <!--update this later so you can fullscreen it (get rid of button and i dont know maybe a popup or a start screen with the instructions?)-->
         <p>Instructions: Use the button to jump. Live as long as possible</p>
         <p>When you die, refresh the page to restart.</p>
     </body>
